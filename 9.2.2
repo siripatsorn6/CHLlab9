@@ -2,30 +2,28 @@
 #include <EEPROM.h>
 #define LCD_addr 0x27
 LiquidCrystal_I2C lcd(LCD_addr, 16, 2);
-int data;
-unsigned int block = 0, count = 0;
+unsigned int i=0;
+int block=0, count=0;
 void setup() {
-  EEPROM.write(1023, EEPROM.read(1023) + 1);
+  EEPROM.write(1023, EEPROM.read(1023) +1);
   lcd.begin();
-  Serial.begin(115200);
+  Serial.begin(9600);
 }
 void loop() {
   Serial.print("Restart");
   Serial.println(EEPROM.read(1023));
   block = 0;
-  while (EEPROM.read(block) >= 255){block++;}
-  if(EEPROM.read(block) >= 255){block++;
-      EEPROM.write(block, EEPROM.read(block) + 1);
-  }else 
-    EEPROM.write(block, EEPROM.read(block) + 1);
-  for(int readblock = 0; EEPROM.read(readblock) != 0; readblock++){
-    count = count + EEPROM.read(readblock);  }
- lcd.clear();
- lcd.setCursor(0, 0);
- lcd.print("Restart :" + String(EEPROM.read(1023)));
- lcd.setCursor(7, 1);
- lcd.print(count);
- Serial.println(count);
- delay(500);
- count= 0;
+  i=EEPROM.read(0);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Restart :" + String(EEPROM.read(1023)));
+  lcd.setCursor(7, 1);
+  lcd.print(count);
+  if(i<10)
+  lcd.print('0');
+  lcd.print(i);
+  Serial.println(i);
+  i++;
+  EEPROM.write(0,i);
+  delay(800);
 }
