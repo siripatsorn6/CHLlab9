@@ -17,3 +17,5 @@ challenge 9.1
 นับแถว
 ![image](https://user-images.githubusercontent.com/113875544/193727011-9274c3c2-51de-44a5-a457-3cc053b523e5.png)
 
+รันต่อเมื่อกดหยุด
+![image](https://user-images.githubusercontent.com/113875544/193730375-fbdbcb7b-c70c-451f-924c-a38ae848bf3f.png)
