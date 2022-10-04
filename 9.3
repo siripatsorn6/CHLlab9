@@ -1,0 +1,79 @@
+#include <LiquidCrystal_I2C.h>
+#include <EEPROM.h>
+#define LCD_addr 0x27
+LiquidCrystal_I2C lcd(LCD_addr, 16, 2);
+String inputString;
+int line=0;
+int str_size=0;
+String ip="";
+void setup() {
+  Serial.begin(115200);
+  lcd.begin();
+  str_size=EEPROM.read(1023);
+  if(str_size==0xFF) str_size=0;
+  for (int i=0; i<str_size-3; i++){
+    if((EEPROM.read(i)>=0x30)&&(EEPROM.read(i)<=0x39))
+      ip+= String(EEPROM.read(i)-0x30);
+    else
+      ip+= String('.');
+  }
+  Serial.println("=================================================================");
+  Serial.println("After reboot");
+  Serial.println("-----------------------------------------------------------------");
+  Serial.print("Current ip address: ");
+  Serial.print(ip);
+  Serial.print(" [ ");
+  for (int i=0; i<str_size-3; i++) {
+    Serial.print(EEPROM.read(i), HEX);
+    Serial.print(" ");
+  }
+  Serial.println("]");
+  Serial.println("=================================================================");
+  Serial.println("Enter new ip address via serial monitor above ---^ in fomat ip=xx.xx.xx.xx or Reset board");
+  lcd.clear();
+ 
+  lcd.setCursor(0, 0);
+  lcd.print("System reboot!!");
+  delay(2000);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("IP address: ");
+  lcd.setCursor(0, 1);
+  lcd.print(ip);
+}
+void loop() {
+  if(Serial.available()>0){
+    ip="";
+    inputString= Serial.readString();
+    Serial.println("-----------------------------------------------------------------");
+    Serial.println("New ip address: "+inputString);
+    str_size= inputString.length();
+    Serial.println("String length= "+String(str_size));
+    EEPROM.write(1023, str_size);
+    if(inputString.substring(0,3)=="ip="){
+      for(int i=0; i<str_size-3; i++){
+        EEPROM.write(i, inputString[i+3]);
+        if((EEPROM.read(i)>='0')&&(EEPROM.read(i)<='9')) //'0'=0x30, '1'=0x31, ...
+          ip+= String(EEPROM.read(i)-0x30);
+        else
+          ip+= String('.');
+      }
+    }
+    Serial.println("-----------------------------------------------------------------");
+    Serial.print("Current ip address: ");
+    Serial.print(ip);
+    Serial.print(" [ ");
+    for (int i=0; i<str_size-3; i++) {
+      Serial.print(EEPROM.read(i), HEX);
+      Serial.print(" ");
+    }
+    Serial.println("]");
+    Serial.println("=================================================================");
+    Serial.println("Enter new ip address via serial monitor above ---^ in fomat ip=xx.xx.xx.xx or Reset board");
+    lcd.clear();
+    lcd.print("IP address: ");
+    lcd.setCursor(0, 1);
+    lcd.print(ip);
+  }
+  delay(500);
+}
