@@ -14,4 +14,6 @@ challenge 9.1
 ปรับเปลี่ยนข้อมูล
 ![image](https://user-images.githubusercontent.com/113875544/193724145-b3821705-52cc-4d4f-b866-2b78b24b8992.png)
 
+นับแถว
+![image](https://user-images.githubusercontent.com/113875544/193727011-9274c3c2-51de-44a5-a457-3cc053b523e5.png)
 
