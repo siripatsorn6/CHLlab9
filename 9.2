@@ -1,45 +1,18 @@
-#include <EEPROM.h>
+#include <LiquidCrystal_I2C.h>
+#define LCD_addr 0x27
+LiquidCrystal_I2C lcd(LCD_addr, 16, 2);
+unsigned int i=0;
 void setup() {
-int max_col =20;
-int data, count=0, line=0;
-Serial.begin(115200);
-Serial.println();
-Serial.println("Filling 0xFF in all location... ");
-for (int i=0; i<=1023; i++)
-EEPROM.write(i, 0xFF);
-Serial.println("Done.");
-Serial.println("Filling some data in some location... ");
-EEPROM.write(214, 10);
-EEPROM.write(5, 2);
-EEPROM.write(512, 3);
-Serial.println("Done.");
-Serial.println("Printing data... ");
-for (int i=0; i<=max_col; i++) {
-  if(i<10) Serial.print("0");
-    Serial.print(i);
-    Serial.print(" ");
+lcd.begin();
+Serial.begin(9600);
 }
-Serial.println();
-Serial.println("-----------------------------------------------------------------");
-Serial.print('0');
-Serial.print(count++);
-Serial.print(": ");
-for(int i=0;i<=512;i++){
-  data= EEPROM.read(i);
-  if(data<15) Serial.print("0");
-  Serial.print(data, HEX);
-  Serial.print(" ");
-    if (++line >=max_col) {
-    Serial.println();
-      if(count<10) Serial.print('0');
-      Serial.print(count);
-      Serial.print(": ");
-      line=0;
-      count++;
-    }
-  }
-Serial.println();
-Serial.println("-----------------------------------------------------------------");
-Serial.println("Done.");
+void loop() {
+lcd.clear();
+lcd.setCursor(7, 0);
+if(i<10)
+lcd.print('0');
+lcd.print(i);
+Serial.println(i);
+i++;
+delay(800);
 }
-void loop() { }
