@@ -1,0 +1,28 @@
+#include <EEPROM.h>
+void setup() {
+int data, line=0;
+Serial.begin(115200);
+Serial.println();
+Serial.println("Filling 0xFF in all location... ");
+for (int i=0; i<=1023; i++)
+EEPROM.write(i, 0xFF);
+Serial.println("Done.");
+Serial.println("Filling some data in some location... ");
+EEPROM.write(0, 1);
+EEPROM.write(5, 2);
+EEPROM.write(512, 3);
+Serial.println("Done.");
+Serial.println("Printing data... ");
+for (int i=0; i<=512; i++) {
+data= EEPROM.read(i);
+Serial.print(data, HEX);
+Serial.print(" ");
+if (++line >=20) {
+Serial.println();
+line=0;
+}
+}
+Serial.println();
+Serial.println("Done.");
+}
+void loop() { }
