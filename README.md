@@ -11,4 +11,7 @@ challenge 9.1
 ชดเชยการแสดงผล
 ![image](https://user-images.githubusercontent.com/113875544/193723165-0c343dc8-284a-4029-88a5-910ed3bae475.png)
 
+ปรับเปลี่ยนข้อมูล
+![image](https://user-images.githubusercontent.com/113875544/193724145-b3821705-52cc-4d4f-b866-2b78b24b8992.png)
+
 
